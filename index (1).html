@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidequest — Do it. Alone. Together. Do it.</title>
+    <meta name="description" content="Sidequest is a coworking events platform for people building side projects. Create your profile, host in-person sessions, and showcase what you built.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --orange: #FF6B35;
+            --orange-dark: #E85D26;
+            --orange-light: #FFB088;
+            --orange-glow: rgba(255, 107, 53, 0.15);
+            --cream: #FFF8F4;
+            --dark: #1A1A2E;
+            --dark-soft: #2D2D44;
+            --gray: #6B7280;
+            --gray-light: #E5E7EB;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(255, 248, 244, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 107, 53, 0.08);
+        }
+
+        .logo {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--orange);
+            letter-spacing: -1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-soft);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--orange);
+        }
+
+        .nav-cta {
+            background: var(--orange) !important;
+            color: var(--white) !important;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600 !important;
+            transition: background 0.2s, transform 0.2s !important;
+        }
+
+        .nav-cta:hover {
+            background: var(--orange-dark) !important;
+            transform: translateY(-1px);
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 24px 80px;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--orange-glow) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -150px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 176, 136, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--white);
+            border: 1px solid var(--gray-light);
+            border-radius: 100px;
+            padding: 8px 20px;
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-bottom: 32px;
+            animation: fadeUp 0.8s ease both;
+        }
+
+        .hero-badge span {
+            color: var(--orange);
+            font-weight: 600;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-weight: 700;
+            line-height: 1.05;
+            max-width: 800px;
+            letter-spacing: -2px;
+            animation: fadeUp 0.8s ease 0.1s both;
+        }
+
+        .hero h1 .highlight {
+            color: var(--orange);
+            position: relative;
+        }
+
+        .hero h1 .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--orange-glow);
+            border-radius: 4px;
+            z-index: -1;
+        }
+
+        .hero-sub {
+            font-size: clamp(1.1rem, 2vw, 1.35rem);
+            color: var(--gray);
+            max-width: 560px;
+            margin-top: 24px;
+            line-height: 1.6;
+            animation: fadeUp 0.8s ease 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 40px;
+            animation: fadeUp 0.8s ease 0.3s both;
+        }
+
+        .btn-primary {
+            background: var(--orange);
+            color: var(--white);
+            padding: 16px 36px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.25s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: var(--orange-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 107, 53, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--dark);
+            padding: 16px 36px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            border: 1px solid var(--gray-light);
+            transition: all 0.25s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--orange);
+            color: var(--orange);
+            transform: translateY(-2px);
+        }
+
+        /* TAGLINE BREAK */
+        .tagline-section {
+            padding: 60px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .tagline {
+            font-family: 'Space Mono', monospace;
+            font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+            color: var(--orange);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* HOW IT WORKS */
+        .how-it-works {
+            padding: 80px 24px 120px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--orange);
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 60px;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .step {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 40px 32px;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--orange), var(--orange-light));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s;
+        }
+
+        .step:hover::before {
+            transform: scaleX(1);
+        }
+
+        .step:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+        }
+
+        .step-number {
+            font-family: 'Space Mono', monospace;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--orange-glow);
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        .step h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .step p {
+            color: var(--gray);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* FEATURES */
+        .features {
+            background: var(--dark);
+            padding: 120px 24px;
+            color: var(--white);
+        }
+
+        .features-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .features .section-label {
+            color: var(--orange-light);
+        }
+
+        .features .section-title {
+            color: var(--white);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--dark-soft);
+            border-radius: 16px;
+            padding: 36px 32px;
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(255, 107, 53, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--orange-glow);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: rgba(255,255,255,0.6);
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        /* PRICING */
+        .pricing {
+            padding: 120px 24px;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .price-card {
+            background: var(--white);
+            border: 2px solid var(--orange);
+            border-radius: 20px;
+            padding: 48px;
+            max-width: 480px;
+            margin: 40px auto 0;
+            position: relative;
+        }
+
+        .price-card::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--orange);
+            color: var(--white);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 6px 20px;
+            border-radius: 100px;
+        }
+
+        .price-amount {
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: -2px;
+        }
+
+        .price-amount span {
+            font-size: 1.2rem;
+            color: var(--gray);
+            font-weight: 400;
+        }
+
+        .price-desc {
+            color: var(--gray);
+            margin: 8px 0 32px;
+            font-size: 1rem;
+        }
+
+        .price-features {
+            text-align: left;
+            margin-bottom: 32px;
+        }
+
+        .price-features li {
+            list-style: none;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray-light);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .price-features li::before {
+            content: '✓';
+            color: var(--orange);
+            font-weight: 700;
+        }
+
+        .price-note {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-top: 16px;
+        }
+
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+            padding: 100px 24px;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .cta-section h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+        }
+
+        .cta-section p {
+            font-size: 1.15rem;
+            opacity: 0.9;
+            margin-bottom: 32px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-white {
+            background: var(--white);
+            color: var(--orange);
+            padding: 16px 40px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.05rem;
+            transition: all 0.25s;
+            display: inline-block;
+        }
+
+        .btn-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--dark);
+            color: rgba(255,255,255,0.5);
+            padding: 60px 24px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--orange);
+            margin-bottom: 16px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin: 20px 0;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--orange-light);
+        }
+
+        footer p {
+            font-size: 0.85rem;
+            margin-top: 20px;
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            nav { padding: 16px 20px; }
+            .nav-links { display: none; }
+            .steps { grid-template-columns: 1fr; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+            .price-card { padding: 32px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">sidequest</div>
+        <div class="nav-links">
+            <a href="#how">How It Works</a>
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#cta" class="nav-cta">Get Started</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-badge">🚀 <span>Now in early access</span> — Join the community</div>
+        <h1>Build your thing.<br>Find <span class="highlight">your people.</span></h1>
+        <p class="hero-sub">Sidequest is where builders go to get things done. Create your profile, join coworking sessions, and show off what you shipped.</p>
+        <div class="hero-buttons">
+            <a href="#cta" class="btn-primary">Start Free Trial</a>
+            <a href="#how" class="btn-secondary">See How It Works</a>
+        </div>
+    </section>
+
+    <section class="tagline-section">
+        <p class="tagline">Do it. Alone. Together. Do it.</p>
+    </section>
+
+    <section class="how-it-works" id="how">
+        <p class="section-label">How It Works</p>
+        <h2 class="section-title">Three steps to shipping faster</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">01</div>
+                <h3>Build Your Profile</h3>
+                <p>Add your work entries — your startup, side project, freelance gig, 9-to-5. AI breaks your goals into actionable subtasks so you always know what's next.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">02</div>
+                <h3>Join or Host Events</h3>
+                <p>Find in-person coworking sessions near you, or host your own. Set the vibe — free or paid, open or approval-only, any size from 5 to 50.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">03</div>
+                <h3>Session Showcase</h3>
+                <p>At the end of every session, present what you worked on. It's the signature Sidequest moment — accountability meets celebration.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="features-inner">
+            <p class="section-label">Features</p>
+            <h2 class="section-title">Everything you need to ship</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI-Powered Subtasks</h3>
+                    <p>Describe your project goal and AI breaks it into 15–60 minute subtasks. Re-split any task that feels too big. Get in-task help via chat.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Real Collaborators</h3>
+                    <p>Invite teammates to your projects as editors or viewers. Share progress, split tasks, build together even when you're apart.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Privacy Controls</h3>
+                    <p>Working on something stealth? Hide any project, show a vague description, or keep it completely private. You control what's visible.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📅</div>
+                    <h3>Calendar Sync</h3>
+                    <p>Events sync to Google Calendar, Apple Calendar, and Outlook. Never miss a session. Get reminders 24 hours and 1 hour before.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing" id="pricing">
+        <p class="section-label">Pricing</p>
+        <h2 class="section-title">Simple, honest pricing</h2>
+        <div class="price-card">
+            <div class="price-amount">$7 <span>/month</span></div>
+            <p class="price-desc">Everything you need. Free trial included.</p>
+            <ul class="price-features">
+                <li>Unlimited projects and subtasks</li>
+                <li>AI subtask generation and chat</li>
+                <li>Host unlimited events</li>
+                <li>Session Showcase for every event</li>
+                <li>Collaborator invites</li>
+                <li>Calendar sync</li>
+                <li>Privacy controls</li>
+            </ul>
+            <a href="#cta" class="btn-primary" style="display: block; text-align: center;">Start Free Trial</a>
+            <p class="price-note">Hosts pay a 3% platform fee on paid event tickets only.</p>
+        </div>
+    </section>
+
+    <section class="cta-section" id="cta">
+        <h2>Ready to build something?</h2>
+        <p>Join the community of builders who show up, do the work, and share what they shipped.</p>
+        <a href="mailto:hello@sidequest.app" class="btn-white">Join the Waitlist</a>
+    </section>
+
+    <footer>
+        <div class="footer-logo">sidequest</div>
+        <div class="footer-links">
+            <a href="#how">How It Works</a>
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="mailto:hello@sidequest.app">Contact</a>
+        </div>
+        <p>&copy; 2026 Sidequest. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
